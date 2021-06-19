@@ -1,3 +1,11 @@
+<div class="card-content" fxLayout="row wrap" fxLayoutAlign="start start">
+  <title-card fxFlex.xs="50" fxFlex.sm="50" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25"
+    [title]="this.ecosystemData?.total_active_pairs_7d" metric="Total Active Pairs"></title-card>
+  <title-card fxFlex.xs="50" fxFlex.sm="50" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25"
+    [title]="'$' + this.ecosystemData?.total_fees_24h" metric="Total Fees (last 24h)"></title-card>
+  <title-card fxFlex.xs="50" fxFlex.sm="50" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25"
+    [title]="this.ecosystemData?.total_swaps_24h" metric="Total Swaps (last 24h)"></title-card>
+</div>
 <div class="main-content">
 
   <div fxLayout="row wrap" fxLayoutAlign="start start">
@@ -55,7 +63,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['pool', row.exchange]"> </tr>
     </table>
 
   </wrapper>

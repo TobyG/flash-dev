@@ -17,6 +17,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { PoolPageComponent } from './pool-page/pool-page.component';
 import { HomePaeComponent } from './home-pae/home-pae.component';
 import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app.routing';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { RouterModule } from '@angular/router';
     MatSortModule,
     MatPaginatorModule,
     HttpClientModule,
-    RouterModule
+    AppRoutingModule
   ],
   providers: [
     {
