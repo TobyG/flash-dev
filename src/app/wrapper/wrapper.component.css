@@ -1,0 +1,13 @@
+.wrapper {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.title {
+  color: #212531;
+  font-size: 200%;
+  font-weight: lighter;
+  font-family: Cabin, Helvetica, sans-serif;
+}
