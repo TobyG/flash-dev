@@ -12,7 +12,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
+import { PoolPageComponent } from './pool-page/pool-page.component';
+import { HomePaeComponent } from './home-pae/home-pae.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -25,9 +29,23 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatSortModule,
     MatPaginatorModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
-  declarations: [AppComponent, WrapperComponent, TitlecardComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
+  declarations: [
+    AppComponent,
+    WrapperComponent,
+    TitlecardComponent,
+    PoolPageComponent,
+    HomePaeComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { DataService } from './data.service';
 
 export interface Datapoint {
   name: String;
@@ -21,8 +22,13 @@ export interface GraphData {
 export class AppComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = [];
+  displayedColumns: string[] = ['name', 'liquidity', 'vol7', 'vol24', 'swapcnt', 'fee24h'];
+
+  tableDataSource = [];
+  ecosystemData: any;
+
+  liquidity30days = [];
+  volume30days = [];
 
   timeline = true;
   colorScheme = {
@@ -89,76 +95,54 @@ export class AppComponent {
           value: 35
         }
       ]
-    },
-
-    {
-      name: 'yellow',
-      series: [
-        {
-          name: 'Aug',
-          value: 364
-        },
-        {
-          name: 'Sep',
-          value: 412
-        },
-        {
-          name: 'Oct',
-          value: 437
-        },
-        {
-          name: 'Nov',
-          value: 437
-        },
-        {
-          name: 'Dec',
-          value: 364
-        },
-        {
-          name: 'Jan',
-          value: 412
-        }
-      ]
-    },
-    {
-      name: 'red',
-      series: [
-        {
-          name: 'Aug',
-          value: 168
-        },
-        {
-          name: 'Sep',
-          value: 343
-        },
-        {
-          name: 'Oct',
-          value: 512
-        },
-        {
-          name: 'Nov',
-          value: 291
-        },
-        {
-          name: 'Dec',
-          value: 168
-        },
-        {
-          name: 'Jan',
-          value: 343
-        }
-      ]
     }
   ];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private dataService: DataService
+  ) {}
 
   ngOnInit() {
-    this.httpClient
-      .get('/assets/data.csv', { responseType: 'text' })
-      .pipe(map(res => res))
-      .subscribe(data => {
-        console.log(data);
-      });
+    this.dataService.getEcosystemData().subscribe(
+      (val: any) => {
+        //console.log(val);
+
+        this.ecosystemData = val.data.items[0];
+        let liqdata = [{ name: 'Liquidity', series: [] }];
+        let voldata = [{ name: 'Liquidity', series: [] }];
+        let liqres = this.ecosystemData.liquidity_chart_30d;
+        liqres.forEach(e => {
+          liqdata[0].series.push({
+            name: e.dt.slice(0, 10),
+            value: e.liquidity_quote
+          });
+        });
+
+        let volres = this.ecosystemData.volume_chart_30d;
+        volres.forEach(e => {
+          voldata[0].series.push({
+            name: e.dt.slice(0, 10),
+            value: e.volume_quote
+          });
+        });
+
+        this.liquidity30days = liqdata;
+        this.volume30days = voldata;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
+    this.dataService.getPoolData().subscribe(
+      (val: any) => {
+        console.log(val);
+        this.tableDataSource = val.data.items;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }

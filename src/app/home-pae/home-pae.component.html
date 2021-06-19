@@ -1,0 +1,92 @@
+<div class="main-content">
+
+  <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+    <wrapper title="Liquidity last 30 days" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50"
+      fxFlex.xl="50">
+      <div #containerRef class="chart1">
+        <ngx-charts-line-chart [scheme]="colorScheme2" [results]="this.liquidity30days" [xAxis]="true" [yAxis]="true"
+          [legend]="false" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="dt" yAxisLabel="liquidity quote">
+        </ngx-charts-line-chart>
+      </div>
+    </wrapper>
+
+    <wrapper title="Volume last 30 days" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
+      <div #containerRef class="chart1">
+        <ngx-charts-line-chart [scheme]="colorScheme2" [results]="this.volume30days" [xAxis]="true" [yAxis]="true"
+          [legend]="false" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="dt" yAxisLabel="volume quote">
+        </ngx-charts-line-chart>
+      </div>
+    </wrapper>
+
+  </div>
+  <wrapper title="Pool Overview - top 100">
+    <table mat-table [dataSource]="tableDataSource" matSort>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Tokens</th>
+        <td mat-cell *matCellDef="let e">{{e.token_0.contract_ticker_symbol}} x {{e.token_1.contract_ticker_symbol}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="liquidity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liquidity</th>
+        <td mat-cell *matCellDef="let e">${{e.total_liquidity_quote}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="vol7">
+        <th mat-header-cell *matHeaderCellDef>Vol (7d)</th>
+        <td mat-cell *matCellDef="let e">${{e.volume_7d_quote}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="vol24">
+        <th mat-header-cell *matHeaderCellDef>Vol (24h)</th>
+        <td mat-cell *matCellDef="let e">${{e.volume_24h_quote}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="swapcnt">
+        <th mat-header-cell *matHeaderCellDef>Swap count (24h)</th>
+        <td mat-cell *matCellDef="let e">{{e.swap_count_24h}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fee24h">
+        <th mat-header-cell *matHeaderCellDef>Fee quote (24h)</th>
+        <td mat-cell *matCellDef="let e">${{e.fee_24h_quote}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </wrapper>
+
+
+  <!--
+    <div fxLayout="row wrap" fxLayoutAlign="start start">
+      <wrapper title="Liquidity" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="50" fxFlex.xl="25">
+        <div #containerRef class="chart1">
+          <ngx-charts-bar-vertical [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
+            [scheme]="colorScheme2" [results]="single" [xAxis]="true" [yAxis]="true" [legend]="true"
+            [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="x label" yAxisLabel="y label"
+            (select)="onSelect($event)">
+          </ngx-charts-bar-vertical>
+        </div>
+      </wrapper>
+
+      <wrapper title="DEX" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="50" fxFlex.xl="25">
+        <div #containerRef class="chart1">
+          <ngx-charts-pie-chart [scheme]="colorScheme2" [results]="single" [legend]="true" [labels]="true"
+            [doughnut]="true"></ngx-charts-pie-chart>
+        </div>
+      </wrapper>
+
+      <wrapper title="line chart" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="50" fxFlex.xl="25">
+        <div #containerRef class="chart1">
+          <ngx-charts-line-chart [scheme]="colorScheme2" [results]="data" [legend]="true" [xAxis]="true" [yAxis]="true"
+            [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="x label" yAxisLabel="y label">
+          </ngx-charts-line-chart>
+        </div>
+      </wrapper>
+    </div>
+    -->
+</div>
